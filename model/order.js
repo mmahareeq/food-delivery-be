@@ -16,13 +16,13 @@ const orderSchema = new Schema({
         type: Number,
         required: true
     },
-    products: [{
-        type: [{
+    products: {
+        type:[ {
             product: {type: mongoose.Schema.Types.ObjectId, ref: 'ProductModel'},
-            count: {type: mongoose.Schema.Types.ObjectId}
+            count: {type: Number}
         }],
-    }],
+    },
     
 });
 
-export const  orderModel = mongoose.model('OrderModel', orderSchema);
+module.exports = mongoose.model('OrderModel', orderSchema);

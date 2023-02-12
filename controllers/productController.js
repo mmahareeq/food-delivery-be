@@ -50,7 +50,7 @@ const deleteProduct = async(req, res)=>{
 const uploadImage = async(req, res)=>{
     if(req.file){
         const id = req.params.id;
-        await ProductModel.updateOne({_id: id},{img: `${req.file.filename}`}).exec();
+        await ProductModel.updateOne({_id: id},{img: `http://localhost:3500/images/${req.file.filename}`}).exec();
         res.status(200).json('successed');
     }else{
         res.status(500).json('err')
