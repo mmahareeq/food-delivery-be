@@ -5,13 +5,13 @@ const session = require('express-session');
 const MongoDBStore = require("connect-mongodb-session")(session);
 const corsOptions = require('./config/corsOptions');
 const multer = require('multer')
-
+const errorHandler = require('./middleware/errorHandler');
 const connectDb = require('./config/db');
 const PORT = process.env.PORT || 3500;
 const app = express();
 
 connectDb()
-const database = "mongodb+srv://food:0569126773@cluster0.hh9xphb.mongodb.net/test";
+const database = "mongodb+srv://food:password@cluster0.hh9xphb.mongodb.net/test";
 
 const store = new MongoDBStore({
     uri: database,
