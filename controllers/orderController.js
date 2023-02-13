@@ -30,7 +30,7 @@ const getorders = async(req, res) =>{
     const start = req.query.start || 1;
     const count = req.query.count || 10;
     const filter= {};
-    
+    req.session.isAuth = true;
     if(search)
        filter = {title: search};
     try {

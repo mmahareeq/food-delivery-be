@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const database = "mongodb+srv://food:password@cluster0.hh9xphb.mongodb.net/test";
+const database = "mongodb+srv://food:0569126773@cluster0.hh9xphb.mongodb.net/test";
 mongoose.set("strictQuery", false);
 
 const connectDb = async ()=>{

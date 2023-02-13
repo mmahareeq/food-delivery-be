@@ -17,12 +17,12 @@ const orderSchema = new Schema({
         required: true
     },
     products: {
-        type:[ {
-            product: {type: mongoose.Schema.Types.ObjectId, ref: 'ProductModel'},
-            count: {type: Number}
-        }],
+        type:[ 
+             {type: mongoose.Schema.Types.ObjectId, ref: 'ProductModel'},
+            // count: {type: Number}
+        ],
     },
     
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('OrderModel', orderSchema);
