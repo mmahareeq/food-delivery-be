@@ -38,4 +38,6 @@ app.use(
 app.use('/product', require('./routes/product'));
 app.use('/order', require('./routes/order'));
 
+
+app.use(errorHandler);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
