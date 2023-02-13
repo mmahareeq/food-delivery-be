@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
-
-const database = "mongodb+srv://food:password@cluster0.hh9xphb.mongodb.net/test";
+const dotenv = require('dotenv');
+dotenv.config();
+const database = process.env.MONGODB;;
 mongoose.set("strictQuery", false);
 
 const connectDb = async ()=>{
     try {
         await mongoose.connect(database);
-          console.log("DB Connection Successfull!")
+          console.log("DB Connection Successfull!");
     } catch (error) {
         console.log(error);
         

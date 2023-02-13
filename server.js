@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3500;
 const app = express();
 
 connectDb()
-const database = "mongodb+srv://food:password@cluster0.hh9xphb.mongodb.net/test";
+const database = process.env.MONGODB;
 
 const store = new MongoDBStore({
     uri: database,
