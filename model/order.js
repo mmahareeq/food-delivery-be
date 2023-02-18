@@ -22,7 +22,10 @@ const orderSchema = new Schema({
             // count: {type: Number}
         ],
     },
-    
+    status: {
+      type: String,
+      enum: ['waiting', 'recivied'],
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('OrderModel', orderSchema);

@@ -3,6 +3,7 @@ const ProductModel = require('../model/product');
 
 const getAllProducts = async (req, res) => {
     try {
+        req.session.isauth = true;
         const products = await ProductModel.find().exec();
         res.status(200).json(products);
     }
