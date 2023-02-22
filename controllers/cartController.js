@@ -4,8 +4,12 @@ const getCart = async(req, res)=>{
    //const id = req.params.id;
    const cartId = req.seesion.cart;
    try {
-    const cart = await CartModel.findById(cartId).exec();
-    res.status(200).json({data: cart});
+    const cart = await CartModel.findById(cartId)
+    .populate('products.product')
+    .exec();
+
+    const count = await CartModel.find({_id: cartId}).count();
+    res.status(200).json({data: cart, count: count});
    } catch (error) {
     res.status(400).json(error);
    }

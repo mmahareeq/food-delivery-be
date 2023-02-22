@@ -24,7 +24,7 @@ const orderSchema = new Schema({
     },
     status: {
       type: String,
-      enum: ['waiting', 'recivied'],
+      enum: ['waiting', 'recivied', 'cancelled'],
     }
 }, { timestamps: true });
 

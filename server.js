@@ -53,6 +53,7 @@ app.use(
 app.use('/product', auth,require('./routes/product'));
 app.use('/order', auth, require('./routes/order'));
 app.use('/cart', require('./routes/cart'));
+app.use('/session', require('./routes/user'));
 
 app.use(errorHandler);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
