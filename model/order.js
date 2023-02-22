@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
     customer: {
-        type: String,
-        required: true,
-        maxlength: 60,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'UserModel',
+      required: true,
       },
       address: {
         type: String,
@@ -25,6 +25,9 @@ const orderSchema = new Schema({
     status: {
       type: String,
       enum: ['waiting', 'recivied', 'cancelled'],
+    }, 
+    date: {
+      type: Date
     }
 }, { timestamps: true });
 
