@@ -39,8 +39,8 @@ const getorders = async(req, res) =>{
         .skip(parseInt(start) - 1)
         .limit(parseInt(count))
         .exec();
-
-        res.status(200).json(orders);
+        const count = await OrderModel.find(filter).count();
+        res.status(200).json({data: orders, count: count });
     } catch (error) {
         res.status(400).json(error);
     }
