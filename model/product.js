@@ -11,6 +11,9 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
+    discount: {
+        type: Number
+    },
     desc: {
         type: String
     },
