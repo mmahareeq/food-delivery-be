@@ -2,7 +2,7 @@ const UserModel = require('../model/user');
 const bcrypt = require('bcrypt');
 
 const signup = async (req, res, next)=>{
-  const {password, email} = req.body();
+  const {password, email} = req.body;
 
   const hasedPassword = await bcrypt.hash(password, 12);
   try {
@@ -19,18 +19,22 @@ const signup = async (req, res, next)=>{
 }
 
 const login = async (req, res, next)=>{
+  console.log(req.body);
   const {password, email} = req.body;
   
   try {
-    const user = await UserModel.findOne({email: email}).exce();
+    console.log('user');
+    const user = await UserModel.findOne({email: email});
+    console.log(user);
+     
     if(!user){
-        return res.status(400).json({message: 'Invalid email or password'})
+        return res.status(404).json({message: 'Invalid email or password'})
     }
-
+      
     const isMatch = await bcrypt.compare(password, user.password);
 
     if(!isMatch){
-      return res.status(400).json({message: 'Invalid email or password'})
+      return res.status(404).json({message: 'Invalid email or password'})
     }
     
     req.session.islogin = true;
@@ -47,9 +51,16 @@ const login = async (req, res, next)=>{
 
 const logout = async (req, res, next) =>{
     req.session.islogin = false;
-
-
   }
 
+  const isLognin = async(req, res, next) =>{
+    if(req.session.islognin && req.session.user){
 
-  module.exports = {signup, login, logout}
+      const user = await UserModel.findById(req.session.user);
+      res.status(200).json(user);
+      
+    }else{
+      res.status(400).json({message: 'error'})
+    }
+  }
+  module.exports = {signup, login, logout, isLognin}
