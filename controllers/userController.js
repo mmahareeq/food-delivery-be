@@ -54,13 +54,19 @@ const logout = async (req, res, next) =>{
   }
 
   const isLognin = async(req, res, next) =>{
-    if(req.session.islognin && req.session.user){
-
+    console.log('hi')
+    console.log(req.session)
+    if(req.session?.islogin && req.session?.user){
+      
       const user = await UserModel.findById(req.session.user);
-      res.status(200).json(user);
+      const newUser = {
+        email: user.email,
+        role: user.role
+      } 
+      res.status(200).json(newUser);
       
     }else{
-      res.status(400).json({message: 'error'})
+      res.status(404).json({message: 'error'})
     }
   }
   module.exports = {signup, login, logout, isLognin}

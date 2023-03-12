@@ -22,8 +22,9 @@ const store2 = new MongoDBStore({
   uri: database,
   collection: "userSessions",
 });
-  
-//app.use(cors(corsOptions));
+
+app.use(cors());
+
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());

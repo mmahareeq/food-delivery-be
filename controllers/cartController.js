@@ -1,26 +1,41 @@
 const CartModel = require('../model/cart');
 
 const getCart = async(req, res)=>{
-   //const id = req.params.id;
-   const cartId = req.seesion.cart;
-   try {
-    const cart = await CartModel.findById(cartId)
-    .populate('products.product')
-    .exec();
-
-    const count = await CartModel.find({_id: cartId}).count();
-    res.status(200).json({data: cart, count: count});
-   } catch (error) {
-    res.status(400).json(error);
-   }
+ 
+    if(req.session?.cart ){
+      const cart = req.session.cart;
+      const Cart = await CartModel.findById(cart)
+                  .populate('products.product');
+      
+      const count = await CartModel.find({_id: cart}).count();
+      res.status(200).json({data: Cart, count: count});
+    }
+    else if(req.session?.user && !req.session?.cart){
+       const Cart = await CartModel.find({user: user})
+               .populate('products.product');
+        req.session.cart = Cart._id;
+        res.status(200).json(Cart);
+        
+    }
+     else if(!req.session?.user && !req.session?.cart){
+      const data = {};
+      const Cart = await new CartModel(data).save(); 
+      
+      if(Cart) {
+         req.session.cart= Cart._id;
+         res.status(200).json(Cart);
+      }
+    }else 
+      res.status(400).json('error');
+ 
 }
 
 const addCart = async(req,res)=>{
    const cart = new CartModel(req.body);
    try {
       const newCart =   await cart.save();
-      res.status(200).json({message: 'create a new cart successfully'});
       req.session.cart = newCart._id;
+      res.status(200).json({message: 'create a new cart successfully'});
    } catch (error) {
     
    }
