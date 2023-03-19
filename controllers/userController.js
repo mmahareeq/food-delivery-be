@@ -61,7 +61,8 @@ const logout = async (req, res, next) =>{
       const user = await UserModel.findById(req.session.user);
       const newUser = {
         email: user.email,
-        role: user.role
+        role: user.role,
+        username: user.username
       } 
       res.status(200).json(newUser);
       
