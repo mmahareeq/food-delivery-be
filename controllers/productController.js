@@ -16,7 +16,6 @@ const getAllProducts = async (req, res) => {
         const products = await ProductModel.find(filter)
         .skip(start - 1 || 0)
         .limit(count || 10).exec();
-        console.log(products)
         res.status(200).json(products);
     }
     catch (err) {
@@ -52,8 +51,10 @@ const addNewProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     const id = req.params.id;
-    const data = req.body;
-
+    let data = JSON.parse(req.body.data);
+     if(req.file){
+        data = {...data, img: `http://localhost:3500/images/${req.file.filename}`} 
+     }
     try {
         await ProductModel.findByIdAndUpdate(id, {
             $set: data

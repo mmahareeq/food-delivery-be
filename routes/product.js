@@ -19,7 +19,7 @@ router.route('/')
 
 router.route('/:id')
      .get(productController.getProductById)
-     .put(productController.updateProduct)
+     .put(upload.single('file'),productController.updateProduct)
      .delete(productController.deleteProduct)
 
  router.route('/image/:id')
