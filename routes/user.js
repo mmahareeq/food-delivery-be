@@ -14,5 +14,11 @@ router.route('/login')
 router.route('/logout')
        .post(userController.logout);
 
+router.route('/forgetpassword')
+       .post(userController.forgetPassword)
+       
+router.route('updatepassword')
+       .post(userController.updatePassword)
+        
 module.exports = router;
 

@@ -20,6 +20,10 @@ const productSchema = new Schema({
     img: {
         type: String,
     },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CategoryModel',
+    }
     
 });
 

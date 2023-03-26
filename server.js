@@ -8,6 +8,7 @@ const multer = require('multer')
 const errorHandler = require('./middleware/errorHandler');
 const connectDb = require('./config/db');
 const auth = require('./middleware/authentication');
+const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3500;
 const app = express();
 
@@ -18,28 +19,16 @@ const store = new MongoDBStore({
     uri: database,
     collection: "cartSessions",
 });
-const store2 = new MongoDBStore({
-  uri: database,
-  collection: "userSessions",
-});
-
 app.use(cors());
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, '/images')));
-app.use('/admin',
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false,
-    store: store2,
-  })
-, 
-  require('./routes/product')
-)
 app.use(
   session({
     secret: "secret",
@@ -51,9 +40,11 @@ app.use(
 
 
 // ======================= Routes
-app.use('/product', auth,require('./routes/product'));
+app.use('/product', require('./routes/product'));
 app.use('/order', auth, require('./routes/order'));
 app.use('/cart', require('./routes/cart'));
+app.use('/category', require('./routes/category'));
+app.use('/password', require('./routes/user'));
 app.use('/session', require('./routes/user'));
 
 app.use(errorHandler);

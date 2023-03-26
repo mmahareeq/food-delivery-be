@@ -1,5 +1,7 @@
 const UserModel = require('../model/user');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 
 const signup = async (req, res, next)=>{
   const {password, email} = req.body;
@@ -54,7 +56,6 @@ const logout = async (req, res, next) =>{
   }
 
   const isLognin = async(req, res, next) =>{
-    console.log('hi')
     console.log(req.session)
     if(req.session?.islogin && req.session?.user){
       
@@ -70,4 +71,62 @@ const logout = async (req, res, next) =>{
       res.status(404).json({message: 'error'})
     }
   }
-  module.exports = {signup, login, logout, isLognin}
+  const forgetPassword = async (req, res, next)=>{
+    const { email } = req.body;
+    const user = await UserModel.findOne({email: email});
+    if(!user){
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '15m' });
+  user.resetPasswordToken = token;
+  user.resetPasswordExpires = Date.now() + 900000; // 15 minutes
+  await user.save();
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Reset your password',
+    html: `<p>Please click this <a href="http://localhost:3000/reset-password/${token}">link</a> to reset your password.</p>`,
+  }; 
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+    res.status(200).json({ message: 'Reset link sent to email' });
+  });
+  }
+
+  const updatePassword = async (req, res, next)=>{
+    const { token } = req.params;
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+    user.password = await bcrypt.hash(req.body.password, 12);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    try {
+      await user.save();
+      req.session.islogin = true;
+      req.session.user = user._id;
+      res.status(200).json({message: 'password is updated ....'})
+    } catch (error) {
+      return res.status(400).json({ message: error });
+    }
+  
+  }
+  module.exports = {signup, login, logout, isLognin, forgetPassword, updatePassword}
