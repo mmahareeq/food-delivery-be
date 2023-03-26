@@ -14,6 +14,7 @@ const getAllProducts = async (req, res) => {
     }
     try {
         const products = await ProductModel.find(filter)
+        .populate('category')
         .skip(start - 1 || 0)
         .limit(count || 10).exec();
         res.status(200).json(products);
@@ -27,7 +28,8 @@ const getProductById = async(req, res)=>{
        const {id} = req.params;
        console.log(id)
        try {
-         const product = await ProductModel.findById(id);
+         const product = await ProductModel.findById(id)
+                        .populate('category');
          res.status(200).json(product);
        } catch (error) {
         console.log(error)
