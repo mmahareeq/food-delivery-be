@@ -6,19 +6,15 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const corsOptions = require('./config/corsOptions');
 const multer = require('multer')
 const errorHandler = require('./middleware/errorHandler');
-const connectDb = require('./config/db');
+const {connectDb, sessionCollection} = require('./config/db');
 const auth = require('./middleware/authentication');
 const bodyParser = require('body-parser');
+
 const PORT = process.env.PORT || 3500;
 const app = express();
 
 connectDb()
-const database = process.env.MONGODB;
 
-const store = new MongoDBStore({
-    uri: database,
-    collection: "cartSessions",
-});
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -28,10 +24,10 @@ app.use(bodyParser.urlencoded({
 app.use('/images', express.static(path.join(__dirname, '/images')));
 app.use(
   session({
-    secret: "secret",
+    secret: process.env.SESSION_SECRET || 'Il}/mav@hCn*CK!>""Zx=6?%p&oLgz<y',
     resave: false,
     saveUninitialized: false,
-    store: store,
+    store: sessionCollection(),
   })
 );
 
