@@ -14,3 +14,10 @@ This is a backend project for food delivery app using Nodejs and mongodb as data
 2. Filter items and show them all.
 3. signing up, signing in, and signing out.
 4. The user can reset the password if they forget it.
+
+## Stack
+1. Node.JS
+2. Multer for storing images.
+3. Nodemailer for sending emails to users requesting password resets.
+4. Mongoose/ MongoDB for data storage.
+5. Authentication session
