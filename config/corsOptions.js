@@ -1,4 +1,4 @@
-const whileList = ['http://localhost:3500'];
+const whileList = ['http://localhost:3000','https://localhost:3000'];
 
 const corsOptions = {
     origin: (origin, callback)=>{
