@@ -8,7 +8,7 @@ const getCart = async(req, res)=>{
                   .populate('products.product');
       
       const count = await CartModel.find({_id: cart}).count();
-      res.status(200).json({data: Cart, count: count});
+      res.status(200).json({cart: Cart, count: count});
     }
     else if(req.session?.user && !req.session?.cart){
        const Cart = await CartModel.find({user: user})
@@ -42,11 +42,17 @@ const addCart = async(req,res)=>{
 }
 
 const updateCart = async (req, res)=>{
-    const idCart = req.params.id;
+    const idCart = req.session.cart;
+    const {product, quantity} = req.body;
     try {
-       const cart = await CartModel.findByIdAndUpdate(idCart, {$set: req.body}).exec();
-        res.status(200).json(cart);
+       const cart =  await CartModel.findOneAndUpdate({_id: idCart},
+         { $push: {products: {product: product,  quantity:  quantity}}},
+         { new: true })
+         .exec();
+        
+        res.status(200).json({cart: cart, count: cart?.products.length});
     } catch (error) {
+      console.log(error)
         res.status(400).json(error);
     }
 }
