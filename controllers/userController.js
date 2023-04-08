@@ -11,7 +11,7 @@ const signup = async (req, res, next)=>{
      const user = new UserModel({
         ...req.body, password: hasedPassword 
      });
-     user.save();
+     await user.save();
      req.session.islogin = true;
      req.session.user = user._id;
      res.status(201).json({message: 'You have successfully registered. Please login now'})
