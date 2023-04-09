@@ -72,8 +72,9 @@ const updateProduct = async (req, res) => {
 }
 
 const deleteProduct = async(req, res)=>{
-    console.log(req.params)
+
     const id = req.params.id;
+    
     try {
        const product =  await ProductModel.findByIdAndDelete(id).exec();
        console.log(product, product?.img?.substr(21));

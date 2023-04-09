@@ -22,12 +22,19 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/images', express.static(path.join(__dirname, '/images')));
+
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'Il}/mav@hCn*CK!>""Zx=6?%p&oLgz<y',
     resave: false,
     saveUninitialized: false,
     store: sessionCollection(),
+     expires: new Date(Date.now() + (7 * 24 * 60 * 60 * 1000)),
+     cookie: { 
+      expires: new Date(Date.now() + (7 * 24 * 60 * 60 * 1000)),
+      sameSite: 'strict'
+    }
   })
 );
 
