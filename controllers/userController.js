@@ -56,7 +56,7 @@ const logout = async (req, res, next) =>{
   }
 
   const isLognin = async(req, res, next) =>{
-    console.log(req.session)
+   // console.log(req.session)
     if(req.session?.islogin && req.session?.user){
       
       const user = await UserModel.findById(req.session.user);

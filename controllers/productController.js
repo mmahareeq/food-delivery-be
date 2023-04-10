@@ -1,5 +1,5 @@
 const ProductModel = require('../model/product');
-
+const fs= require('fs');
 
 const getAllProducts = async (req, res) => {
     console.log(req.query);
@@ -30,6 +30,7 @@ const getProductById = async(req, res)=>{
        try {
          const product = await ProductModel.findById(id)
                         .populate('category');
+        product = {...product, averageRating: product.averageRating}
          res.status(200).json(product);
        } catch (error) {
         console.log(error)
@@ -45,6 +46,7 @@ const addNewProduct = async (req, res) => {
     const product = new ProductModel(data)
     try {
         await product.save();
+        //product.averageRating;
         res.status(200).json({massege:'add a new product successfully', product: product});
     } catch (err) {
         res.status(500).json(err);
@@ -70,9 +72,19 @@ const updateProduct = async (req, res) => {
 }
 
 const deleteProduct = async(req, res)=>{
+
     const id = req.params.id;
+    
     try {
-        await ProductModel.findByIdAndDelete(id).exec();
+       const product =  await ProductModel.findByIdAndDelete(id).exec();
+       console.log(product, product?.img?.substr(21));
+       fs.unlink(`.${product?.img?.substr(21)}`, (err) => {
+        if (err) {
+          res.status(500).send({
+            message: "Could not delete the file. " + err,
+          });
+        }
+      });
         res.status(200).json({massege:'product has been deleted ... '})
     } catch (error) {
         res.status(500).json(err)
