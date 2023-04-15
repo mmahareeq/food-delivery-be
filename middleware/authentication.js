@@ -3,7 +3,7 @@ const UserModel = require('../model/user');
 const isAdminAuth = async (req, res, next)=>{
     if(req.session.islogin)
     {
-        const user = await UserModel.findOneById(req.session.user).exec();
+        const user = await UserModel.findById(req.session?.user).exec();
         if(user && user.role === 'admin'){
            next();
         }else{

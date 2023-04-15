@@ -12,8 +12,8 @@ const getCart = async(req, res)=>{
       res.status(200).json({cart: Cart, count: count});
     }
     else if(req.session?.user && !req.session?.cart){
-      console.log('maraim2')
-       const Cart = await CartModel.find({user: user})
+      console.log('maraim2', req.session?.user)
+       const Cart = await CartModel.find({user: req.session?.user})
                .populate('products.product');
         req.session.cart = Cart._id;
         res.status(200).json(Cart);
