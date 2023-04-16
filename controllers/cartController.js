@@ -3,7 +3,6 @@ const CartModel = require('../model/cart');
 const getCart = async(req, res)=>{
     console.log(req.session)
     if(req?.session?.cart ){
-      console.log('maraim')
       const cart = req.session.cart;
      
       const Cart = await CartModel.findById(cart)
@@ -12,9 +11,13 @@ const getCart = async(req, res)=>{
       res.status(200).json({cart: Cart, count: count});
     }
     else if(req.session?.user && !req.session?.cart){
-      console.log('maraim2', req.session?.user)
-       const Cart = await CartModel.find({user: req.session?.user})
+       let Cart = await CartModel.find({user: req.session?.user})
                .populate('products.product');
+         console.log(Cart);    
+        if(!Cart.length){
+         data = {user: req.session?.user}
+        Cart =  await new CartModel(data).save();
+        }
         req.session.cart = Cart._id;
         res.status(200).json(Cart);
         
@@ -51,7 +54,7 @@ const updateCart = async (req, res)=>{
          { $push: {products: {product: product,  quantity:  quantity}}},
          { new: true })
          .exec();
-        
+        console.log('success')
         res.status(200).json({cart: cart, count: cart?.products.length});
     } catch (error) {
       console.log(error)
