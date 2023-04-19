@@ -1,4 +1,4 @@
-const UserModel = require('../model/user');
+const UserModel = require('../model/user.model');
 
 const isAdminAuth = async (req, res, next)=>{
     if(req.session.islogin)

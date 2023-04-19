@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer')
-const productController = require('../controllers/productController');
+const productController = require('../controllers/products.controller');
 const isAdminAuth = require('../middleware/authentication')
 
 const storageEngine = multer.diskStorage({

@@ -40,12 +40,12 @@ app.use(
 
 
 // ======================= Routes
-app.use('/product', require('./routes/product'));
-app.use('/order', auth, require('./routes/order'));
-app.use('/cart', require('./routes/cart'));
-app.use('/category', require('./routes/category'));
-app.use('/password', require('./routes/user'));
-app.use('/session', require('./routes/user'));
+app.use('/products', require('./routes/products'));
+app.use('/orders', auth, require('./routes/orders'));
+app.use('/carts', require('./routes/carts'));
+app.use('/categories', require('./routes/categories'));
+app.use('/password', require('./routes/users'));
+app.use('/session', require('./routes/users'));
 
 app.use(errorHandler);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
