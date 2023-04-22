@@ -1,4 +1,4 @@
-const userController = require('../controllers/userd.controller');
+const userController = require('../controllers/user.controller');
 
 const router = require('express').Router();
 
@@ -12,7 +12,7 @@ router.route('/login')
        .post(userController.login);
 
 router.route('/logout')
-       .post(userController.logout);
+       .get(userController.logout);
 
 router.route('/forgetpassword')
        .post(userController.forgetPassword)

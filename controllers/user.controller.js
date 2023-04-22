@@ -25,10 +25,8 @@ const login = async (req, res, next)=>{
   const {password, email} = req.body;
   
   try {
-    console.log('user');
     const user = await UserModel.findOne({email: email});
-    console.log(user);
-     
+ 
     if(!user){
         return res.status(404).json({message: 'Invalid email or password'})
     }
@@ -52,7 +50,13 @@ const login = async (req, res, next)=>{
 }
 
 const logout = async (req, res, next) =>{
+ 
+   try {
     req.session.islogin = false;
+    res.status(200).json({message: 'you have logout successfully'});
+   } catch (error) {
+    res.status(500).json({message: error});
+   }
   }
 
   const isLognin = async(req, res, next) =>{

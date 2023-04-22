@@ -22,7 +22,7 @@ const getAllProducts = async (req, res) => {
         } else {
             filter = {
                 $or: [{
-                    'category[0].name': category
+                    'category.0.name': category
                 }]
             }
         }
