@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
-const MongoDBStore = require("connect-mongodb-session")(session);
 const corsOptions = require('./config/corsOptions');
 const multer = require('multer')
 const errorHandler = require('./middleware/errorHandler');

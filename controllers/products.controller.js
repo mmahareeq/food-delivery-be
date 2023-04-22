@@ -69,7 +69,8 @@ const addNewProduct = async (req, res) => {
     //console.log(req,16)
     let data = JSON.parse(req.body.data);
     if (req.file) {
-        data = { ...data, img: `http://localhost:3500/images/${req.file.filename}` }
+        const filePath = process.env.API || 'http://localhost:3500';
+        data = { ...data, img: `${filePath}/images/${req.file.filename}` }
     }
     const product = new ProductModel(data)
     try {
@@ -85,7 +86,8 @@ const updateProduct = async (req, res) => {
     const id = req.params.id;
     let data = JSON.parse(req.body.data);
     if (req.file) {
-        data = { ...data, img: `http://localhost:3500/images/${req.file.filename}` }
+        const filePath = process.env.API || 'http://localhost:3500';
+        data = { ...data, img: `${filePath}/images/${req.file.filename}` }
     }
     try {
         await ProductModel.findByIdAndUpdate(id, {
@@ -123,8 +125,9 @@ const uploadImage = async (req, res) => {
     //console.log(req.body)
     if (req.file) {
         console.log('file')
+        const filePath = process.env.API || 'http://localhost:3500';
         const id = req.params.id;
-        await ProductModel.updateOne({ _id: id }, { img: `http://localhost:3500/images/${req.file.filename}` }).exec();
+        await ProductModel.updateOne({ _id: id }, { img: `${filePath}/images/${req.file.filename}` }).exec();
         res.status(200).json('successed');
     } else {
         res.status(500).json('err')
