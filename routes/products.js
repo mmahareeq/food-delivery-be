@@ -7,7 +7,6 @@ const isAdminAuth = require('../middleware/authentication')
 const storageEngine = multer.diskStorage({
     destination: "./images",
     filename: (req, file, callback) => {
-        console.log(req,'fiile',file)
     callback(null, `${Date.now()}--${file.originalname}`);
     },
 }); 

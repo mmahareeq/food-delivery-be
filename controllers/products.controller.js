@@ -2,7 +2,7 @@ const ProductModel = require('../model/product.model');
 const fs = require('fs');
 
 const getAllProducts = async (req, res) => {
-    console.log(req.query);
+
     const { start, count, search, category } = req.query;
     let filter = {};
     if (search) {
@@ -13,7 +13,6 @@ const getAllProducts = async (req, res) => {
         }
     }
     if (category) {
-        console.log('marrrr')
         if (Object.keys(filter).length !== 0) {
             const newOption = filter.$or;
             newOption.push({ 'category[0].name': category });
@@ -47,26 +46,23 @@ const getAllProducts = async (req, res) => {
         res.status(200).json(Products);
     }
     catch (err) {
-        console.log(err)
         res.status(400).json(err);
     }
 }
 
 const getProductById = async (req, res) => {
     const { id } = req.params;
-    console.log(id)
+   
     try {
         const product = await ProductModel.findById(id)
             .populate('category');
         product = { ...product, averageRating: product.averageRating }
         res.status(200).json(product);
     } catch (error) {
-        console.log(error)
         res.status(404).json(error)
     }
 }
 const addNewProduct = async (req, res) => {
-    //console.log(req,16)
     let data = JSON.parse(req.body.data);
     if (req.file) {
         const filePath = process.env.API || 'http://localhost:3500';
@@ -107,7 +103,7 @@ const deleteProduct = async (req, res) => {
 
     try {
         const product = await ProductModel.findByIdAndDelete(id).exec();
-        console.log(product, product?.img?.substr(21));
+        
         fs.unlink(`.${product?.img?.substr(21)}`, (err) => {
             if (err) {
                 res.status(500).send({
@@ -122,9 +118,7 @@ const deleteProduct = async (req, res) => {
 }
 
 const uploadImage = async (req, res) => {
-    //console.log(req.body)
     if (req.file) {
-        console.log('file')
         const filePath = process.env.API || 'http://localhost:3500';
         const id = req.params.id;
         await ProductModel.updateOne({ _id: id }, { img: `${filePath}/images/${req.file.filename}` }).exec();

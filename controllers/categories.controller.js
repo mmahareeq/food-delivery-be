@@ -25,7 +25,6 @@ const getAllCategory = async (req, res) => {
 
 const getCategoriesById = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const product = await CategoryModel.findById(id);
     res.status(200).json(product);
@@ -34,7 +33,6 @@ const getCategoriesById = async (req, res) => {
   }
 };
 const addNewCategory = async (req, res) => {
-  //console.log(req,16)
   let data = req.body;
   const category = new CategoryModel(data);
   try {

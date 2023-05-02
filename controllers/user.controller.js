@@ -21,7 +21,6 @@ const signup = async (req, res, next)=>{
 }
 
 const login = async (req, res, next)=>{
-  console.log(req.body);
   const {password, email} = req.body;
   
   try {
@@ -60,7 +59,6 @@ const logout = async (req, res, next) =>{
   }
 
   const isLognin = async(req, res, next) =>{
-   // console.log(req.session)
     if(req.session?.islogin && req.session?.user){
       
       const user = await UserModel.findById(req.session.user);
@@ -101,11 +99,11 @@ const logout = async (req, res, next) =>{
     html: `<p>Please click this <a href="http://localhost:3000/reset-password/${token}">link</a> to reset your password.</p>`,
   }; 
   transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
+    // if (error) {
+    //   console.log(error);
+    // } else {
+    //   console.log('Email sent: ' + info.response);
+    // }
     res.status(200).json({ message: 'Reset link sent to email' });
   });
   }

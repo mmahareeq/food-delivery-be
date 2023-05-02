@@ -34,9 +34,9 @@ const connectDb = async () => {
     const databaseUrl = databaseURI();
     try {
         await mongoose.connect(databaseUrl);
-        console.log("DB Connection Successfull!");
     } catch (error) {
-        console.log(error);
+       console.log(error);
+      //  return error;
 
     }
 }
