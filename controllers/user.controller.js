@@ -59,19 +59,24 @@ const logout = async (req, res, next) =>{
   }
 
   const isLognin = async(req, res, next) =>{
-    if(req.session?.islogin && req.session?.user){
+    try {
+      if(req.session?.islogin && req.session?.user){
       
-      const user = await UserModel.findById(req.session.user);
-      const newUser = {
-        email: user.email,
-        role: user.role,
-        username: user.username
-      } 
-      res.status(200).json(newUser);
-      
-    }else{
-      res.status(404).json({message: 'error'})
+        const user = await UserModel.findById(req.session.user);
+        const newUser = {
+          email: user.email,
+          role: user.role,
+          username: user.username
+        } 
+       return  res.status(200).json(newUser);
+        
+      }else{
+       return  res.status(404).json({message: 'error'})
+      }
+    } catch (error) {
+      res.status(404).json({message: error})
     }
+
   }
   const forgetPassword = async (req, res, next)=>{
     const { email } = req.body;
