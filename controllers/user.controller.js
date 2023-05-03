@@ -70,8 +70,6 @@ const logout = async (req, res, next) =>{
         } 
        return  res.status(200).json(newUser);
         
-      }else{
-       return  res.status(404).json({message: 'error'})
       }
     } catch (error) {
       res.status(404).json({message: error})
