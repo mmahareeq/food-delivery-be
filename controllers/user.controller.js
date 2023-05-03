@@ -60,6 +60,7 @@ const logout = async (req, res, next) =>{
 
   const isLognin = async(req, res, next) =>{
     try {
+      console.log(req.session)
       if(req.session?.islogin && req.session?.user){
       
         const user = await UserModel.findById(req.session.user);
@@ -71,6 +72,7 @@ const logout = async (req, res, next) =>{
        return  res.status(200).json(newUser);
         
       }
+
     } catch (error) {
       res.status(404).json({message: error})
     }
