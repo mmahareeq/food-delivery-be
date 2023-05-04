@@ -42,7 +42,7 @@ const login = async (req, res, next)=>{
     res.status(200).json({message: 'you have login successfully', user});
 
   } catch (error) {
-    res.status(500).json({message: error});
+    res.status(404).json({message: error});
   }
  
   
@@ -54,7 +54,7 @@ const logout = async (req, res, next) =>{
     req.session.islogin = false;
     res.status(200).json({message: 'you have logout successfully'});
    } catch (error) {
-    res.status(500).json({message: error});
+    res.status(404).json({message: error});
    }
   }
 
