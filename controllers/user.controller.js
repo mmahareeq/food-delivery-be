@@ -38,6 +38,7 @@ const login = async (req, res, next)=>{
     
     req.session.islogin = true;
     req.session.user = user._id;
+    req.session.save();
     user.password = undefined;
     res.status(200).json({message: 'you have login successfully', user});
 
@@ -59,7 +60,9 @@ const logout = async (req, res, next) =>{
   }
 
   const isLognin = async(req, res, next) =>{
+    console.log(req.session)
     if(await req.session?.islogin && await req.session?.user){
+      console.log(req.session)
       const user = await UserModel.findById(req.session.user);
         const newUser = {
           email: user.email,
@@ -70,7 +73,11 @@ const logout = async (req, res, next) =>{
     }else{
       res.status(404).json({message: 'use is not login'});
     }
-    
+    // try {
+    //   console.log(await req.session)
+    // } catch (error) {
+    //   console.log(error)
+    // }
 
   }
   const forgetPassword = async (req, res, next)=>{
