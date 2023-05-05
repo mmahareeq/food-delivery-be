@@ -44,7 +44,7 @@ app.use('/orders', auth, require('./routes/orders'));
 app.use('/carts', require('./routes/carts'));
 app.use('/categories', require('./routes/categories'));
 app.use('/password', require('./routes/users'));
-app.use('/auth', require('./routes/users'));
+app.use('/session', require('./routes/users'));
 
 app.use(errorHandler);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
