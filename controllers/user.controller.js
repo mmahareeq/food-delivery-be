@@ -86,7 +86,7 @@ const logout = async (req, res, next) =>{
     if(!user){
       return res.status(404).json({ message: 'User not found' });
     }
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '30m' });
   user.resetPasswordToken = token;
   user.resetPasswordExpires = Date.now() + 900000; // 15 minutes
   await user.save();

@@ -2,7 +2,7 @@ const cartController = require('../controllers/carts.controller');
 
 const router = require('express').Router();
 
-
+console.log('cart')
 router.route('/')
       .get(cartController.getCart)
       .post(cartController.addCart)

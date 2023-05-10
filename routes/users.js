@@ -17,8 +17,8 @@ router.route('/logout')
 router.route('/forgetpassword')
        .post(userController.forgetPassword)
        
-router.route('updatepassword')
-       .post(userController.updatePassword)
+router.route('/updatepassword/:token')
+       .put(userController.updatePassword)
         
 module.exports = router;
 
